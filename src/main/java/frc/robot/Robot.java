@@ -18,6 +18,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.servohub.ServoHub.ResetMode;
 
@@ -44,130 +46,107 @@ public class Robot extends TimedRobot {
     private String m_autoSelected;
     private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-    private final SparkMax frontLeftDrive = new SparkMax(1,MotorType.kBrushless);
-    private final SparkMax backLeftDrive = new SparkMax(3,MotorType. kBrushless);
-    private final SparkMax frontRightDrive = new SparkMax(5,MotorType.kBrushless);
+    private final SparkMax frontLeftDrive = new SparkMax(3,MotorType.kBrushless);
+    private final SparkMax backLeftDrive = new SparkMax(5,MotorType. kBrushless);
+    private final SparkMax frontRightDrive = new SparkMax(1,MotorType.kBrushless);
     private final SparkMax backRightDrive = new SparkMax(8,MotorType.kBrushless);
 
-    private final SparkMax frontLeftturn = new SparkMax(2,MotorType.kBrushless);
-    private final SparkMax backLeftturn = new SparkMax(4,MotorType. kBrushless);
-    private final SparkMax frontRightturn = new SparkMax(6,MotorType.kBrushless);
+    private final SparkMax frontLeftturn = new SparkMax(4,MotorType.kBrushless);
+    private final SparkMax backLeftturn = new SparkMax(6,MotorType. kBrushless);
+    private final SparkMax frontRightturn = new SparkMax(2,MotorType.kBrushless);
     private final SparkMax backRightturn = new SparkMax(7,MotorType.kBrushless);
     //private final SparkBase Spark = new SparkBase();
-
-
-
-
+     //Wheel represents a class that is composed of 2 sparkmax motors representing the turn and drive motor of each wheel as well as PID values and an angle value for each of the wheels
+    private wheel FLWheel = new wheel (frontLeftDrive, frontLeftturn, 6.2, 0, 0, 0.086);
+    private wheel FRWheel = new wheel (frontRightDrive, frontRightturn, 3.2, 0, 0, 0.746);
+    private wheel BLWheel = new wheel ( backLeftDrive, backLeftturn, 0.16, 0, 0, 0.062);
+    private wheel BRWheel = new wheel ( backRightDrive, backRightturn, 3.2, 0, 0, 0.071);
     
 
-
-
-
     private XboxController controller;
-    private SparkMaxConfig Configturnmotor;
     private SparkClosedLoopController FLController;
 
     private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-        new Translation2d(-0.5, 0.5),  // Front Left wheel position
-        new Translation2d(0.5, -0.5),  // Front Right wheel position
-        new Translation2d(-0.5, -0.5), // Back Left wheel position
-        new Translation2d(0.5, -0.5)   // Back Right wheel position
+        new Translation2d(-11.5, 14.5),  // Front Left wheel position
+        new Translation2d(11.5, 14.5),  // Back Left wheel position
+        new Translation2d(-11.5, -14.5), // Front Right wheel position
+        new Translation2d(11.5, -14.5)   // Back Right wheel position
     );
-  // Example chassis speeds: 1 meter per second forward, 3 meters
-// per second to the left, and rotation at 1.5 radians per second
-// counterclockwise.
-ChassisSpeeds speeds = new ChassisSpeeds(1.0, 3.0, 1.5);
-// Convert to module states
-SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(speeds);
-// Front left module state
-// SwerveModuleState frontLeft = moduleStates[0];
-// // Front right module state
-// SwerveModuleState frontRight = moduleStates[1];
-// // Back left module state
-// SwerveModuleState backLeft = moduleStates[2];
-// // Back right module state
-// SwerveModuleState backRight = moduleStates[3];
-int ncycles;
-int elapsedcycles;
+  
+    int ncycles = 0;
     @Override
     public void robotInit() {
-        ncycles = 0;
+         ncycles = 0;
+    
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
         controller = new XboxController(0);
-        Configturnmotor = new SparkMaxConfig();
-        //Past value was 0.21
-        Configturnmotor.closedLoop.pid(1.6,0,.3);
-        //Configturnmotor.inverted(true);
-        //Creating PID and constants
-        Configturnmotor.closedLoop.outputRange(-1, 1);
-        Configturnmotor.closedLoop.positionWrappingEnabled(true);
-        Configturnmotor.closedLoop.positionWrappingInputRange(0,1);
-        Configturnmotor.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
+        
+        
+      
         //Need to somehow convert the configturnmotor object to the base sparkmax.config type i think???
       
-        frontLeftturn.configure(Configturnmotor, SparkBase.ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters );
-
-        FLController = frontLeftturn.getClosedLoopController();
-        
-       //TODO: Maybe get the value of the angle from the encoder and run it through the getClosedLoopController() as the input
+        //TODO: Maybe get the value of the angle from the encoder and run it through the getClosedLoopController() as the input
     }
 
 
   /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        ncycles = ncycles + 1;
+       
+        
         double forward= controller.getLeftY(); 
         double strafe= controller.getLeftX();
         //double = controller.getRightY(); 
         double rotate= controller.getRightX();
+
+        
         ChassisSpeeds robotVelocity = new ChassisSpeeds(forward, strafe, rotate);
+       // ChassisSpeeds robotVelocity = new ChassisSpeeds(0.2, 0, 0);
+
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(robotVelocity);
         boolean condition = forward < 0.15 && strafe < 0.1 && forward > -0.15 && strafe > -0.1;
-        double relencodervalue = frontLeftturn.getAbsoluteEncoder().getPosition();
-        double angle = (states[0].angle.getRotations() );
         
-          if (ncycles%50 == 0) {
-            System.out.println("Encoder value: "+(Math.abs(states[0].angle.getRotations() - relencodervalue)-0.5));
-          }
+        
+        
+          FLWheel.setturnspeed(states[2]);
+          BLWheel.setturnspeed(states[3]);
+          FRWheel.setturnspeed(states[0]);
+          BRWheel.setturnspeed(states[1]);
+        
+     //     m_frontLeft.driveVoltage(voltage.baseUnitMagnitude());
 
-
-          if (Math.abs(Math.abs(states[0].angle.getRotations() - relencodervalue) -0.5 ) <  0.05 && condition ) {
-            frontLeftturn.set(0);
-          }
-          else{
+      
+        ncycles = ncycles + 1; 
+        double relencodervalueFL = frontLeftturn.getAbsoluteEncoder().getPosition();
+        double relencodervalueBL = backLeftturn.getAbsoluteEncoder().getPosition();
+        double relencodervalueFR= frontRightturn.getAbsoluteEncoder().getPosition();
+        double relencodervalueBR= backLeftturn.getAbsoluteEncoder().getPosition();
+        double tempOffset = 0.5;
+           if (ncycles%50 == 0) {
+           // System.out.println(" FL:  "+(Math.abs(states[0].angle.getRotations() - relencodervalueFL)-tempOffset));
+            System.out.println(" BL:  "+(Math.abs(states[3].angle.getRotations() - relencodervalueBL)-tempOffset));
+           // System.out.println(" FR:  "+(Math.abs(states[2].angle.getRotations() - relencodervalueFR)-tempOffset));
+           // System.out.println(" BR:  "+(Math.abs(states[3].angle.getRotations() - relencodervalueBR)-tempOffset));
         
-          FLController.setReference(angle,ControlType.kPosition); 
-        }
-        
-        //System.out.println("Commanded Robot velocity: "+ robotVelocity.vxMetersPerSecond+", "+robotVelocity.vyMetersPerSecond+", "+robotVelocity.omegaRadiansPerSecond)
-
-        //Inserting value of the state and getting an angular velocity by running it through the PID controller
-        
-       if( forward < 0.15 && condition) {
-        frontLeftDrive.set(0);
-        backLeftDrive.set(0);
-        frontRightDrive.set(0);
-        backRightDrive.set(0); 
+       if(  condition) {
+          frontLeftDrive.set(0);
+          backLeftDrive.set(0);
+          frontRightDrive.set(0);
+          backRightDrive.set(0); 
        } 
        else {
-        frontLeftDrive.set(states[0].speedMetersPerSecond);
-        backLeftDrive.set(states[1].speedMetersPerSecond);
-        frontRightDrive.set(states[2].speedMetersPerSecond);
-        backRightDrive.set(states[3].speedMetersPerSecond);
-       }
+         FLWheel.setdrivespeed(states[0]);
+         BLWheel.setdrivespeed(states[1]);
+         FRWheel.setdrivespeed(states[2]);
+         BRWheel.setdrivespeed(states[3]);
+        
+       }}
+       
+       
 
-    //System.out.println("Joystick Values:");
-    //System.out.println("Forward: " + forward);
-    //System.out.println("Strafe: " + strafe);
-    //System.out.println("Rotate: " + rotate);
-
-    //System.out.println("Swerve Module States:");
-    //System.out.println("Front Left Speed: " + states[0].speedMetersPerSecond + ", Angle: " + states[0].angle.getDegrees());
-    //System.out.println("Back Left Speed: " + states[1].speedMetersPerSecond + ", Angle: " + states[1].angle.getDegrees());
-    }
+  }
    
 
 
