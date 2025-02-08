@@ -57,10 +57,10 @@ public class Robot extends TimedRobot {
     private final SparkMax backRightturn = new SparkMax(7,MotorType.kBrushless);
     //private final SparkBase Spark = new SparkBase();
      //Wheel represents a class that is composed of 2 sparkmax motors representing the turn and drive motor of each wheel as well as PID values and an angle value for each of the wheels
-    private wheel FLWheel = new wheel (frontLeftDrive, frontLeftturn, 6.2, 0, 0, 0.086);
-    private wheel FRWheel = new wheel (frontRightDrive, frontRightturn, 3.2, 0, 0, 0.746);
-    private wheel BLWheel = new wheel ( backLeftDrive, backLeftturn, 0.16, 0, 0, 0.062);
-    private wheel BRWheel = new wheel ( backRightDrive, backRightturn, 3.2, 0, 0, 0.071);
+    private wheel FLWheel = new wheel (frontLeftDrive, frontLeftturn, 0.4, 0, 0, 0.585);
+    private wheel FRWheel = new wheel (frontRightDrive, frontRightturn, 0.4, 0, 0, 0.246);
+    private wheel BLWheel = new wheel ( backLeftDrive, backLeftturn, 0.4, 0, 0, 0.062);
+    private wheel BRWheel = new wheel ( backRightDrive, backRightturn, 0.4, 0, 0, 0.786);
     
 
     private XboxController controller;
@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
     
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
-        SmartDashboard.putData("Auto choices", m_chooser);
+        //SmartDashboard.putData("Auto choices", m_chooser);
         controller = new XboxController(0);
         
         
@@ -94,7 +94,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-       
+      
         
         double forward= controller.getLeftY(); 
         double strafe= controller.getLeftX();
@@ -103,7 +103,7 @@ public class Robot extends TimedRobot {
 
         
         ChassisSpeeds robotVelocity = new ChassisSpeeds(forward, strafe, rotate);
-       // ChassisSpeeds robotVelocity = new ChassisSpeeds(0.2, 0, 0);
+        //ChassisSpeeds robotVelocity = new ChassisSpeeds(0.2, 0, 0);
 
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(robotVelocity);
         boolean condition = forward < 0.15 && strafe < 0.1 && forward > -0.15 && strafe > -0.1;
@@ -123,13 +123,16 @@ public class Robot extends TimedRobot {
         double relencodervalueBL = backLeftturn.getAbsoluteEncoder().getPosition();
         double relencodervalueFR= frontRightturn.getAbsoluteEncoder().getPosition();
         double relencodervalueBR= backLeftturn.getAbsoluteEncoder().getPosition();
-        double tempOffset = 0.5;
+        double tempOffset = 0;
            if (ncycles%50 == 0) {
-           // System.out.println(" FL:  "+(Math.abs(states[0].angle.getRotations() - relencodervalueFL)-tempOffset));
+            System.out.print("desired: "+states[3].angle.getRotations());
+            System.out.println("Actual: "+relencodervalueBL);
+            System.out.println(" FL:  "+(Math.abs(states[0].angle.getRotations() - relencodervalueFL)-tempOffset));
             System.out.println(" BL:  "+(Math.abs(states[3].angle.getRotations() - relencodervalueBL)-tempOffset));
-           // System.out.println(" FR:  "+(Math.abs(states[2].angle.getRotations() - relencodervalueFR)-tempOffset));
-           // System.out.println(" BR:  "+(Math.abs(states[3].angle.getRotations() - relencodervalueBR)-tempOffset));
+            System.out.println(" FR:  "+(Math.abs(states[2].angle.getRotations() - relencodervalueFR)-tempOffset));
+            System.out.println(" BR:  "+(Math.abs(states[3].angle.getRotations() - relencodervalueBR)-tempOffset));
         
+           }
        if(  condition) {
           frontLeftDrive.set(0);
           backLeftDrive.set(0);
@@ -137,15 +140,17 @@ public class Robot extends TimedRobot {
           backRightDrive.set(0); 
        } 
        else {
-         FLWheel.setdrivespeed(states[0]);
-         BLWheel.setdrivespeed(states[1]);
-         FRWheel.setdrivespeed(states[2]);
-         BRWheel.setdrivespeed(states[3]);
+         FLWheel.setdrivespeed(states[2]);
+         BLWheel.setdrivespeed(states[3]);
+         FRWheel.setdrivespeed(states[0]);
+         BRWheel.setdrivespeed(states[1]);
         
-       }}
+       }
        
+       SmartDashboard.putNumber("AbsoluteEncoderValue", relencodervalueFR);
+       SmartDashboard.putNumber("DesiredValue", states[0].angle.getRotations());
+       SmartDashboard.putNumber("Current", frontRightturn.getOutputCurrent());
        
-
   }
    
 

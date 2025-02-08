@@ -28,10 +28,12 @@ public class wheel {
      offset = O;
      Configturnmotor.closedLoop.pid(p,i,d);
      Configturnmotor.closedLoop.outputRange(-1, 1);
+     Configturnmotor.inverted(true);
      //Configturnmotor.closedLoop.positionWrappingEnabled(true);
      //Configturnmotor.closedLoop.positionWrappingInputRange(0,1);
-     turnmotor.configure(Configturnmotor, SparkBase.ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters );
      Configturnmotor.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
+     turnmotor.configure(Configturnmotor, SparkBase.ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters );
+     
 
      Turncontroller= turnmotor.getClosedLoopController();
         
@@ -44,19 +46,22 @@ public class wheel {
   }
 
 
-
-
+ 
 
   public void setturnspeed (SwerveModuleState state ) {
-    double relencodervalue = turnmotor.getAbsoluteEncoder().getPosition();
     double angle = (state.angle.getRotations());
+
+    Turncontroller.setReference(angle+offset,ControlType.kPosition);
+  //System.out.println(state.angle.getRotations());
+    double relencodervalue = turnmotor.getAbsoluteEncoder().getPosition();
     
     
-    if (Math.abs(Math.abs(state.angle.getRotations() - relencodervalue) -0.5 ) <  0.07  ) {
-        turnmotor.set(0);
-      }
+    if (Math.abs(Math.abs(state.angle.getRotations() - relencodervalue) - 0.5 ) <  0.1  ) {
+        //turnmotor.set(0);
+    }
       else{
-        Turncontroller.setReference(angle+offset,ControlType.kPosition); 
+       
+        
   
 } 
   }
