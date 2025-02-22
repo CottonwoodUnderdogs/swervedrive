@@ -1,0 +1,77 @@
+package frc.robot;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
+
+public class Coral {
+    private SparkMax coralturnmotor;
+    private SparkMax coraldoormotor;
+    private XboxController controller;
+
+public Coral ( SparkMax A, SparkMax B, XboxController C){
+
+   coralturnmotor = A;
+   coraldoormotor = B;
+   controller = C;
+
+}
+
+public void Coral_turn () {
+
+boolean cturnr = controllermap.controllers[controllermap.cturnrButton[0]].getRawButton(controllermap.cturnrButton[1]);  
+boolean cturnl = controllermap.controllers[controllermap.cturnlButton[0]].getRawButton(controllermap.cturnlButton[1]); 
+boolean cdoor = controllermap.controllers[controllermap.cdoorButton[0]].getRawButton(controllermap.cdoorButton[1]);
+  //boolean cdoor = controller.getRawButton(6);
+  
+     if (cturnr == true && cturnl == false){
+        coralturnmotor.set(0.5);
+      }
+
+     if (cturnl == true && cturnr == false){
+        coralturnmotor.set(-0.5);
+      }
+
+     if (cturnl == true && cturnr == true ){
+        coralturnmotor.set(0);
+     }
+
+     if (cturnl == false && cturnr == false ){
+        coralturnmotor.set(0);
+     }
+   }
+     
+   
+   public void Coral_door () {
+
+      boolean cdoor = controllermap.controllers[controllermap.cdoorButton[0]].getRawButton(controllermap.cdoorButton[1]);
+
+     if (cdoor== true) {
+      if (coraldoormotor.isAtBotton()) {
+          coraldoormotor.set(0.5);
+      } 
+
+      else { 
+         coraldoormotor.set(0);
+      }
+   }
+     else {
+
+      if (coraldoormotor.isAtTop()) {
+         coraldoormotor.set(-0.5);
+      }
+      else {
+         coraldoormotor.set(0);
+      }
+   }
+
+  }
+  
+}
+
+
+   
