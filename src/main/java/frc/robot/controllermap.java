@@ -1,14 +1,8 @@
 package frc.robot;
-import edu.wpi.first.wpilibj.TimedRobot;
+
 import edu.wpi.first.wpilibj.XboxController;
 
-import java.lang.ModuleLayer.Controller;
 
-import com.revrobotics.spark.SparkBase;
-import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
-import com.revrobotics.spark.config.SparkMaxConfig;
 
 public abstract class controllermap {
 
@@ -32,7 +26,7 @@ public abstract class controllermap {
     // climber
     public static int[] upclimberButton = {1,2}; // controller 1, Axis 2 - LT-axis
     public static int[] downclimberButton = {1,3}; // controller 1, Axis 3 -RT-axis
-    public static int[] intakeclimeberButton = { 1,5};
+    public static int[] intakeclimeberButton = { 1,5}; 
     public static int[] letoffclimberButton = {1,6};
     
     public static int[] intakeToggleButton = {1,4}; // controller 1, Button 4

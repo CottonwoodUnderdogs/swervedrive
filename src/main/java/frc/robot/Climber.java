@@ -1,13 +1,6 @@
 package frc.robot;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.controllermap;
 
-import com.revrobotics.spark.SparkBase;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
-import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class Climber {
     private SparkMax up_down_motor;
@@ -35,9 +28,10 @@ public Climber( SparkMax A, SparkMax B){
    public void Climber_cling () {
      boolean intakeclimber = controllermap.controllers[controllermap.intakeclimeberButton[0]].getRawButton(controllermap.intakeclimeberButton[1]);
      boolean letoffclimber = controllermap.controllers[controllermap.letoffclimberButton[0]].getRawButton(controllermap.letoffclimberButton[1]);
+     
      double speed =  ( intakeclimber ? 0.5 : 0 ) - (letoffclimber ? -0.5 : 0 );
      
-     cling_motor.set(speed); 
+      cling_motor.set(speed); 
 
 }
 
