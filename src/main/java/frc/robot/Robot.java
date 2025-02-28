@@ -57,10 +57,10 @@ public class Robot extends TimedRobot {
     private final SparkMax backRightturn = new SparkMax(7,MotorType.kBrushless);
     //private final SparkBase Spark = new SparkBase();
      //Wheel represents a class that is composed of 2 sparkmax motors representing the turn and drive motor of each wheel as well as PID values and an angle value for each of the wheels
-    private wheel FLWheel = new wheel (frontLeftDrive, frontLeftturn, 0.4, 0, 0, 0.585);
-    private wheel FRWheel = new wheel (frontRightDrive, frontRightturn, 0.4, 0, 0, 0.246);
-    private wheel BLWheel = new wheel ( backLeftDrive, backLeftturn, 0.4, 0, 0, 0.062);
-    private wheel BRWheel = new wheel ( backRightDrive, backRightturn, 0.4, 0, 0, 0.786);
+    private wheel FLWheel = new wheel (frontLeftDrive, frontLeftturn, 0.4, 0, 4, 0.585);
+    private wheel FRWheel = new wheel (frontRightDrive, frontRightturn, 0.4, 0, 4, 0.246);
+    private wheel BLWheel = new wheel ( backLeftDrive, backLeftturn, 0.4, 0, 4, 0.062);
+    private wheel BRWheel = new wheel ( backRightDrive, backRightturn, 0.4, 0, 4, 0.786);
     
 
     private XboxController controller;
@@ -144,9 +144,10 @@ public class Robot extends TimedRobot {
          BLWheel.setdrivespeed(states[3]);
          FRWheel.setdrivespeed(states[0]);
          BRWheel.setdrivespeed(states[1]);
-        
+      
        }
        
+
        SmartDashboard.putNumber("AbsoluteEncoderValue", relencodervalueFR);
        SmartDashboard.putNumber("DesiredValue", states[0].angle.getRotations());
        SmartDashboard.putNumber("Current", frontRightturn.getOutputCurrent());

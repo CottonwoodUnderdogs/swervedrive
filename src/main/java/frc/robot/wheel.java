@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -49,7 +50,10 @@ public class wheel {
  
 
   public void setturnspeed (SwerveModuleState state ) {
-    double angle = (state.angle.getRotations());
+
+    double encodervalue = turnmotor.getAbsoluteEncoder().getPosition();   
+     state.optimize(new Rotation2d(encodervalue));
+     double angle = (state.angle.getRotations());
 
     Turncontroller.setReference(angle+offset,ControlType.kPosition);
   //System.out.println(state.angle.getRotations());
