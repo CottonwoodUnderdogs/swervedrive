@@ -60,50 +60,17 @@ public class wheel {
       
   }
 
-  public Rotation2d angle = Rotation2d.kZero;
-  public Rotation2d optimize(SwerveModuleState state) {
-    
-    double encoder =  turnmotor.getAbsoluteEncoder().getPosition();
-    state.optimize(new Rotation2d(encoder));
-    double designencoder = state.angle.getRotations();
-    double A = designencoder - encoder;
-    double B = (1 - encoder) + designencoder;
-    double C = (Math.abs(A)-0.5);
  
-    if (B>=C) {
-       if ((Math.abs(A))> 0.25) {
-        state.speedMetersPerSecond *= - 1;
-        angle = angle.rotateBy(Rotation2d.kPi);
-      
-       }
-       else {
 
-       }
-      }
-      else  {
-      }
-    
-      
-    
-    return angle;
+  public void setturnspeed (SwerveModuleState state ) {
+
+    double encodervalue = turnmotor.getAbsoluteEncoder().getPosition();   
+     state.optimize(new Rotation2d(encodervalue));
+     double angle = (state.angle.getRotations());
 
   }
 
-    public void setturnspeed ( SwerveModuleState state) {
-      Rotation2d myVariable = optimize(state);
-     double angle = turnmotor.getAbsoluteEncoder().getPosition();
-    // (state.angle.plus(Rotation2d.fromRotations(offset)).getRotations());
-    // double m_turningEncoder = turnmotor.getAlternateEncoder().getPosition();
-     state.speedMetersPerSecond = 0;
-     double V = state.angle.getRotations();
-     state.optimize(new Rotation2d(angle));
-     //Turncontroller.setReference(state.angle.getRotations(), ControlType.kPosition);
-  System.out.print(" optimized : "+ state.angle.getRotations());
-  System.out.print("orginal : " + V);
-  System.out.print("sensor : " + turnmotor.getAbsoluteEncoder().getPosition()+ "\n\n\n");
-
-        
-    }
+    
   // public void setturnspeed (SwerveModuleState state ) {
      
   //   // SwerveModuleState correctedDesiredState = new SwerveModuleState();
