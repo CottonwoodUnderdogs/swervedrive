@@ -44,7 +44,6 @@ import com.revrobotics.spark.SparkMax;
       private  SparkMax backRightturn ;
     
        private Timer timer;
-
        private DriveSystem driveSystem;
 
     public Autonomous (SparkMax FLDrive, SparkMax BLDrive, SparkMax FRDrive, SparkMax BRDrive, SparkMax FLTurn, SparkMax BLTurn, SparkMax FRTurn, SparkMax BRTurn, ADXRS450_Gyro A, SwerveDriveKinematics B, Timer C) {
@@ -66,8 +65,6 @@ import com.revrobotics.spark.SparkMax;
       BLWheel = new wheel ( backLeftDrive, backLeftturn, 1.4, 0, 0, 0.127);    //8,7
       BRWheel = new wheel ( backRightDrive, backRightturn, 1.4, 0, 0, 0.309);  //5,6
 
-     
-
     }
 
    public void autonomous() {
@@ -79,7 +76,7 @@ import com.revrobotics.spark.SparkMax;
      double time = timer.get();
 
       if (time < 2.0) {
-        SwerveModuleState state = new SwerveModuleState (0.5, new Rotation2d(0));
+        SwerveModuleState state = new SwerveModuleState (0.5, new Rotation2d( 3.04, 174.88));
        
         FLWheel.setturnspeed(state);
         FRWheel.setturnspeed(state);
@@ -93,7 +90,7 @@ import com.revrobotics.spark.SparkMax;
     
       }
      
-   }
-
-}
+    }
+   
+ } 
 

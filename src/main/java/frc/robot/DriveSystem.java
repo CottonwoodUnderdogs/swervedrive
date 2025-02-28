@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -22,13 +23,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
       private SparkMax backRightturn ;
  
       private ADXRS450_Gyro gyro;
-      private SwerveDriveKinematics kinematics;
+      private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+        
+       new Translation2d(14.5, 11.5),  // Front Left wheel position
+        new Translation2d(-14.5, 11.5),  // Back Left wheel position
+        new Translation2d(14.5, -11.5), // Front Right wheel position
+        new Translation2d(-14.5, -11.5)   // Back Right wheel position
+
+    );
 
 
     public DriveSystem (SparkMax FLDrive, SparkMax BLDrive, SparkMax FRDrive, SparkMax BRDrive, SparkMax FLTurn, SparkMax BLTurn, SparkMax FRTurn, SparkMax BRTurn, ADXRS450_Gyro A, SwerveDriveKinematics B) {
    
       gyro = A;
-      kinematics = B;
+      //kinematics = B;
 
       frontLeftDrive = FLDrive;
       backLeftDrive = BLDrive;
@@ -40,16 +48,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
       frontRightturn = FRTurn;
       backRightturn = BRTurn;
  
-      FLWheel = new wheel (frontLeftDrive, frontLeftturn, 1.4, 0, 0, 0.506);   //1,2
-      FRWheel = new wheel (frontRightDrive, frontRightturn, 1.4, 0, 2, 0.822); //3,4
-      BLWheel = new wheel ( backLeftDrive, backLeftturn, 1.4, 0, 0, 0.127);    //8,7
-      BRWheel = new wheel ( backRightDrive, backRightturn, 1.4, 0, 0, 0.309);  //5,6
+      FLWheel = new wheel (frontLeftDrive, frontLeftturn, 1.4, 0, 0, 0.750);   //1,2
+      FRWheel = new wheel (frontRightDrive, frontRightturn, 1.4, 0, 2, 0.595); //3,4
+      BLWheel = new wheel ( backLeftDrive, backLeftturn, 1.4, 0, 0, 0.068);    //8,7
+      BRWheel = new wheel ( backRightDrive, backRightturn, 1.4, 0, 0, 0.370);  //5,6
 
    }
 
     public void drivemotor(){
 
-        
        double forward = controllermap.controllers[controllermap.forwardAxis[0]].getRawAxis(controllermap.forwardAxis[1]);
        double strafe = controllermap.controllers[controllermap.strafeAxis[0]].getRawAxis(controllermap.strafeAxis[1]);
        double rotate = controllermap.controllers[controllermap.rotateAxis[0]].getRawAxis(controllermap.rotateAxis[1]);
@@ -57,15 +64,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
        double gyroAngle= gyro.getAngle();
        double gaINrads = Math.toRadians(gyroAngle);
 
-       double FWD = forward * Math.cos(gaINrads) + strafe * Math.sin(gaINrads);
-       double STR= -forward * Math.sin(gaINrads) + strafe * Math.cos(gaINrads);
+       //double FWD = forward * Math.cos(gaINrads) + strafe * Math.sin(gaINrads);
+      // double STR= -forward * Math.sin(gaINrads) + strafe * Math.cos(gaINrads);
        double RWT = rotate;
 
-       boolean condition1 = forward < 0.15 && forward > -0.15 && strafe > -0.1 && strafe < 0.1 && rotate >1 && rotate < -1;
+       boolean condition1 = forward < 0.15 && forward > -0.15 && strafe > -0.1 && strafe < 0.1;
        boolean condition2 =  rotate > 0.1 && rotate < -0.1;
-
-      ChassisSpeeds robotVelocity = new ChassisSpeeds(FWD, STR, RWT);
-      SwerveModuleState[] states = kinematics.toSwerveModuleStates(robotVelocity);
+      
+       ChassisSpeeds robotVelocity = new ChassisSpeeds(forward, strafe, RWT);
+       SwerveModuleState[] states = kinematics.toSwerveModuleStates(robotVelocity);
       
          System.out.println(states[0]);
 
@@ -96,10 +103,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
          BRWheel.setdrivespeed(states[1]);
        }
     
-    // double relencodervalueFL = frontLeftturn.getAbsoluteEncoder().getPosition();
-    // double relencodervalueBL = backLeftturn.getAbsoluteEncoder().getPosition();
+       double relencodervalueFL = frontLeftturn.getAbsoluteEncoder().getPosition();
+       double relencodervalueBL = backLeftturn.getAbsoluteEncoder().getPosition();
        double relencodervalueFR= frontRightturn.getAbsoluteEncoder().getPosition();
-    // double relencodervalueBR= backLeftturn.getAbsoluteEncoder().getPosition();
+       double relencodervalueBR= backLeftturn.getAbsoluteEncoder().getPosition();
     // double tempOffset = 0;
     // int ncycles = 0;
 
@@ -109,7 +116,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
        SmartDashboard.putNumber("DesiredValue", states[0].angle.getRotations());
        SmartDashboard.putNumber("Current", frontRightturn.getOutputCurrent());
        
-
+  
       //if (ncycles%50 == 0) {
 
         // System.out.print("desired: "+states[3].angle.getRotations());

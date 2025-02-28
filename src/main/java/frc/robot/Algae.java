@@ -7,7 +7,6 @@ import com.revrobotics.spark.SparkMax;
 public class Algae {
     private SparkMax EjectBall;
     
-
 public boolean linkageToggle() {
 boolean IntakeToggle = controllermap.controllers[controllermap.intakeToggleButton[0]].getRawButton(controllermap.intakeToggleButton[1]);
 

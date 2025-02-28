@@ -21,21 +21,21 @@ public Coral ( SparkMax A, SparkMax B, XboxController C){
 
 }
 
-public void Coral_turn () {
+   public void Coral_turn () {
 
-boolean cturnr = controllermap.controllers[controllermap.cturnrButton[0]].getRawButton(controllermap.cturnrButton[1]);  
-boolean cturnl = controllermap.controllers[controllermap.cturnlButton[0]].getRawButton(controllermap.cturnlButton[1]); 
+      boolean cturnr = controllermap.controllers[controllermap.cturnrButton[0]].getRawButton(controllermap.cturnrButton[1]);  
+      boolean cturnl = controllermap.controllers[controllermap.cturnlButton[0]].getRawButton(controllermap.cturnlButton[1]); 
  
-double speed = (cturnr ? 0.5 :0 ) - (cturnl ? 0.5 : 0);
+      double speed = (cturnr ? 0.5 :0 ) - (cturnl ? -0.5 : 0);
 
-coralturnmotor.set(speed)
+      coralturnmotor.set(speed);
 
 }
    public void Coral_door () {
 
       boolean cdoor = controllermap.controllers[controllermap.cdoorButton[0]].getRawButton(controllermap.cdoorButton[1]);
 
-     if (cdoor== true) {
+     if (cdoor ?) {
       if (coraldoormotor.isAtBotton()) {
           coraldoormotor.set(0.5);
       } 
@@ -44,6 +44,7 @@ coralturnmotor.set(speed)
          coraldoormotor.set(0);
       }
    }
+
      else {
 
       if (coraldoormotor.isAtTop()) {

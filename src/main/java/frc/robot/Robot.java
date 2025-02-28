@@ -64,6 +64,10 @@ public class Robot extends TimedRobot {
     private final SparkMax backLeftturn = new SparkMax(7,MotorType. kBrushless);
     private final SparkMax frontRightturn = new SparkMax(4,MotorType.kBrushless);
     private final SparkMax backRightturn = new SparkMax(6,MotorType.kBrushless);
+
+    //temporary testing code
+    private final SparkMax fourbarlinkage = new SparkMax(10,MotorType.kBrushless);
+
     private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     private Timer time;
    
@@ -76,21 +80,10 @@ public class Robot extends TimedRobot {
     //private final SparkBase Spark = new SparkBase();
      //Wheel represents a class that is composed of 2 sparkmax motors representing the turn and drive motor of each wheel as well as PID values and an angle value for each of the wheels
   
-    
-
     private XboxController controller;
-    
+    private XboxController controller2;
 
     //CoralSystem = new Coral(coralturnmotor, coraldoormotor, controller);
-
-    private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-        
-       new Translation2d(14.5, 11.5),  // Front Left wheel position
-        new Translation2d(-14.5, 11.5),  // Back Left wheel position
-        new Translation2d(14.5, -11.5), // Front Right wheel position
-        new Translation2d(-14.5, -11.5)   // Back Right wheel position
-
-    );
 
     //Coral = new Coral ( coralturnmotor, coraldoormotor, controller);
 
@@ -105,8 +98,8 @@ public class Robot extends TimedRobot {
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         //SmartDashboard.putData("Auto choices", m_chooser);
-        controller = new XboxController(0);
-        controller = new XboxController(1);
+        //controller = new XboxController(0);
+        //controller2 = new XboxController(1);
 
         //Need to somehow convert the configturnmotor object to the base sparkmax.config type i think???
       
@@ -116,6 +109,9 @@ public class Robot extends TimedRobot {
  
   @Override
       public void teleopPeriodic() {
+        //double tempAxis = controller2.getLeftY();
+        //fourbarlinkage.set(tempAxis);
+      
 
        Drive.drivemotor();
        GyroReset.Gyro_resetforward();
