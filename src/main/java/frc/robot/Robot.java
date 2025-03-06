@@ -6,6 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -55,34 +58,35 @@ public class Robot extends TimedRobot {
     private String m_autoSelected;
     private final SendableChooser<String> m_chooser = new SendableChooser<>();
    
-    private final SparkMax frontLeftDrive = new SparkMax(1,MotorType.kBrushless);
-    private final SparkMax backLeftDrive = new SparkMax(8,MotorType. kBrushless);
-    private final SparkMax frontRightDrive = new SparkMax(3,MotorType.kBrushless);
-    private final SparkMax backRightDrive = new SparkMax(5,MotorType.kBrushless);
+    // private final SparkMax frontLeftDrive = new SparkMax(1,MotorType.kBrushless);
+    // private final SparkMax backLeftDrive = new SparkMax(8,MotorType. kBrushless);
+    // private final SparkMax frontRightDrive = new SparkMax(3,MotorType.kBrushless);
+    // private final SparkMax backRightDrive = new SparkMax(5,MotorType.kBrushless);
 
-    private final SparkMax frontLeftturn = new SparkMax(2,MotorType.kBrushless);
-    private final SparkMax backLeftturn = new SparkMax(7,MotorType. kBrushless);
-    private final SparkMax frontRightturn = new SparkMax(4,MotorType.kBrushless);
-    private final SparkMax backRightturn = new SparkMax(6,MotorType.kBrushless);
+    // private final SparkMax frontLeftturn = new SparkMax(2,MotorType.kBrushless);
+    // private final SparkMax backLeftturn = new SparkMax(7,MotorType. kBrushless);
+    // private final SparkMax frontRightturn = new SparkMax(4,MotorType.kBrushless);
+    // private final SparkMax backRightturn = new SparkMax(6,MotorType.kBrushless);
 
-    //temporary testing code
-    private final SparkMax fourbarlinkage = new SparkMax(10,MotorType.kBrushless);
+    // //temporary testing code
+    //private final SparkMax fourbarlinkage = new SparkMax(10,MotorType.kBrushless);
 
     private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     private Timer time;
-   
+    
     private Gyro GyroReset = new Gyro (gyro);
-    private DriveSystem Drive = new DriveSystem(frontRightDrive, frontLeftDrive, backRightDrive, backLeftDrive, frontRightturn, frontLeftturn, backRightturn, backLeftturn, gyro, null);
+    private DriveSystem Drive = new DriveSystem(gyro);
+    private Autonomous Auto = new Autonomous();
 
     //private Coral CoralSystem;
-     //AnalogGyro gyro = new AnalogGyro(0);
+    //AnalogGyro gyro = new AnalogGyro(0);
 
     //private final SparkBase Spark = new SparkBase();
      //Wheel represents a class that is composed of 2 sparkmax motors representing the turn and drive motor of each wheel as well as PID values and an angle value for each of the wheels
   
     private XboxController controller;
     private XboxController controller2;
-
+    private AutonomousSystem autoSystem;
     //CoralSystem = new Coral(coralturnmotor, coraldoormotor, controller);
 
     //Coral = new Coral ( coralturnmotor, coraldoormotor, controller);
@@ -91,11 +95,10 @@ public class Robot extends TimedRobot {
     int ncycles = 0;
     @Override
     public void robotInit() {
-         ncycles = 0;
-        
-         //gyro.reset();
-         gyro.calibrate();
-        m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+      ncycles = 0;
+      //gyro.reset();
+      gyro.calibrate();
+      m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         //SmartDashboard.putData("Auto choices", m_chooser);
         //controller = new XboxController(0);
@@ -112,7 +115,6 @@ public class Robot extends TimedRobot {
         //double tempAxis = controller2.getLeftY();
         //fourbarlinkage.set(tempAxis);
       
-
        Drive.drivemotor();
        GyroReset.Gyro_resetforward();
       
@@ -120,10 +122,18 @@ public class Robot extends TimedRobot {
   
 
 @Override
-public void teleopInit() { 
+ public void teleopInit() { 
    
 
 }
+
+@Override
+  public void autonomousPeriodic() { 
+
+   Auto.moving();
+       
+  }
+
 }
 
 

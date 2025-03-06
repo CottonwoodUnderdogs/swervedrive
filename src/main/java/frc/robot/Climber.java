@@ -6,10 +6,10 @@ public class Climber {
     private SparkMax up_down_motor;
     private SparkMax cling_motor;
 
-public Climber( SparkMax A, SparkMax B){
+ public Climber( SparkMax A, SparkMax B){
     
-    up_down_motor = A;
-    cling_motor = B;
+  up_down_motor = A;
+  cling_motor = B;
 
 }
 

@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.XboxController;
 public abstract class controllermap {
 
     // a static for 2 controller
-    private  static XboxController controller0 = new XboxController(0);
-    private  static XboxController controller1= new XboxController(1);
+    private static XboxController controller0 = new XboxController(0);
+    private static XboxController controller1= new XboxController(1);
     public static XboxController[] controllers = {controller0, controller1};
     
     // drive
