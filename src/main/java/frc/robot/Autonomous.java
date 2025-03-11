@@ -10,40 +10,67 @@ public class Autonomous {
  public Autonomous ( ) {
   autoSystem = new AutonomousSystem();
  }
+ public void option1 () {
+    System.out.println(Robot.gyro.getAngle());
+   
+    switch (step) {
+    case 1:
+    boolean value1 = autoSystem.rotation(50);
+    if (value1 == false) {
+        step = 2;
+    }
 
- public void moving () {
-  boolean isActive = autoSystem.moveForTime(0, 0, 0, 0);
-  
+    break;
+    
+    default:
+    boolean end = autoSystem.moveForTime(0, 0, 0, 0);
+    
+    break;   
+
+    }
+
+ }
+
+ public void testing () {
    switch(step) {
    case 1:
-    boolean value1 = isActive;
+    boolean value1 = autoSystem.moveForTime(5,0.1,0,0);
     if (value1 == false)  {  
-     autoSystem.moveForTime(5,0.5,0,0);
+
      step=2;
+
     }
+    System.out.println("case 1");
    break;
 
    case 2:
-    boolean value2 = isActive;
+    boolean value2 =  autoSystem.moveForTime(15,0,0.1,0);
+
     if (value2  == false)  {  
-     autoSystem.moveForTime(10,0,0.5,0);
      step=3;
     }
+     System.out.println("case 2");
     break;
 
    case 3:
-    boolean value3 = isActive; 
+    boolean value3 = autoSystem.moveForTime(4, 0.1, 0, 0);
     if (value3  == false)  {  
-     autoSystem.moveForTime(15,0,0,1);
-     step=4;
+        step=4;
     }
+    System.out.println("case 3");
     break;
 
-    }
+
+    default:
+    boolean end = autoSystem.moveForTime(0, 0, 0, 0);
+    
+    break;
 
    }
 
   }
+
+ }
 
  
      

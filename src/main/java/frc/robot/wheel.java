@@ -77,4 +77,24 @@ public class wheel {
   drivemotor.set(0);
   turnmotor.set(0);
  }
+
+ public void speed (SwerveModuleState state) {
+  drivemotor.set(-state.speedMetersPerSecond);
+
+ }
+ public void setrotationspeed ( SwerveModuleState state)  {
+  double relencodervalue = turnmotor.getAbsoluteEncoder().getPosition();
+  double angle = state.angle.getDegrees();
+  if (Math.abs(Math.abs(state.angle.getRotations() - relencodervalue) -0.5 ) <  0.07  ) {
+    turnmotor.set(0);
+  }
+  else{
+    Turncontroller.setReference(angle+offset,ControlType.kPosition);
+ }
 }
+ public void resetrotaion (SwerveModuleState state) {
+  turnmotor.set(1);
+  drivemotor.set(0);
+ }
+
+ } 

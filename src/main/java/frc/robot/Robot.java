@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -68,15 +69,20 @@ public class Robot extends TimedRobot {
     // private final SparkMax frontRightturn = new SparkMax(4,MotorType.kBrushless);
     // private final SparkMax backRightturn = new SparkMax(6,MotorType.kBrushless);
 
+
+
     // //temporary testing code
     //private final SparkMax fourbarlinkage = new SparkMax(10,MotorType.kBrushless);
 
-    private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    public static final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  
+
     private Timer time;
     
     private Gyro GyroReset = new Gyro (gyro);
     private DriveSystem Drive = new DriveSystem(gyro);
-    private Autonomous Auto = new Autonomous();
+   private Climber Climber = new Climber();
+    private Autonomous Auto;
 
     //private Coral CoralSystem;
     //AnalogGyro gyro = new AnalogGyro(0);
@@ -95,6 +101,7 @@ public class Robot extends TimedRobot {
     int ncycles = 0;
     @Override
     public void robotInit() {
+      
       ncycles = 0;
       //gyro.reset();
       gyro.calibrate();
@@ -111,13 +118,14 @@ public class Robot extends TimedRobot {
 
  
   @Override
+
       public void teleopPeriodic() {
         //double tempAxis = controller2.getLeftY();
         //fourbarlinkage.set(tempAxis);
       
        Drive.drivemotor();
        GyroReset.Gyro_resetforward();
-      
+Climber.Climber_up_down();
     }
   
 
@@ -128,13 +136,20 @@ public class Robot extends TimedRobot {
 }
 
 @Override
-  public void autonomousPeriodic() { 
-
-   Auto.moving();
+  public void autonomousInit() { 
+System.out.println("Autonomous");
+Auto = new Autonomous();
        
+  }
+
+@Override
+  public void autonomousPeriodic() { 
+System.out.println("Autonomous");
+   Auto.testing();
+   
   }
 
 }
 
 
-
+//motor.set(pidOutput(distance))

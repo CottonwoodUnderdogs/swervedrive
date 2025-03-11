@@ -12,8 +12,6 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-
-
 public class Gyro {
     private ADXRS450_Gyro gyro;
  

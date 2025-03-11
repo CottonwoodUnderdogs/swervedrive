@@ -16,7 +16,6 @@ public abstract class controllermap {
     public static int[] strafeAxis = {0,1};   // controller 0, Axis 1 - LX-axis
     public static int[] rotateAxis = {0,4};   // controller 0, Axis 4 - LY-axis
    
-
     // coral
     public static int[] cturnrButton = {0,2}; // controller 0, Button 2
     public static int[] cturnlButton = {0,0}; // controller 0, Button 0
@@ -25,7 +24,7 @@ public abstract class controllermap {
     
     // climber
     public static int[] upclimberButton = {1,2}; // controller 1, Axis 2 - LT-axis
-    public static int[] downclimberButton = {1,3}; // controller 1, Axis 3 -RT-axis
+    public static int[] downclimberButton = {1,5}; // controller 1, Axis 3 -RT-axis
     public static int[] intakeclimeberButton = { 1,5}; 
     public static int[] letoffclimberButton = {1,6};
     

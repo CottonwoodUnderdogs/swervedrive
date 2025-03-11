@@ -37,21 +37,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
        double FWD = forward * Math.cos(gaINrads) + strafe * Math.sin(gaINrads);
        double STR= forward * Math.sin(gaINrads) + strafe * Math.cos(gaINrads);
-       double RWT = rotate;
+       
+       double RWT = rotate * 1/10;
 
-       boolean condition1 = forward < 0.15 && forward > -0.15 && strafe > -0.1 && strafe < 0.1 && rotate >1 && rotate < -1;
+       boolean condition1 = forward < 0.15 && forward > -0.15 && strafe > -0.1 && strafe < 0.1 && rotate >0.1 && rotate < -0.1;
        boolean condition2 =  rotate > 0.1 && rotate < -0.1;
 
-      ChassisSpeeds robotVelocity = new ChassisSpeeds(FWD, STR, RWT);
+      ChassisSpeeds robotVelocity = new ChassisSpeeds(STR, -FWD, RWT);
+    //  ChassisSpeeds robotVelocity = new ChassisSpeeds(FWD, STR, RWT);
 
       SwerveModuleState[] states = kinematics.toSwerveModuleStates(robotVelocity);
       SwerveModuleState testState = new SwerveModuleState();
       testState.angle = new Rotation2d(0.00);
        
-      SwerveSubsystem.FLWheel.setturnspeed(states[2]);
+      SwerveSubsystem.FLWheel.setturnspeed(states[1]);
       SwerveSubsystem.FRWheel.setturnspeed(states[3]);
       SwerveSubsystem.BLWheel.setturnspeed(states[0]);
-      SwerveSubsystem.BRWheel.setturnspeed(states[1]);
+      SwerveSubsystem.BRWheel.setturnspeed(states[2]);
 
 
 
@@ -64,18 +66,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
        }
 
        else if ( condition2 ) {
-        SwerveSubsystem.FLWheel.setdrivespeed(states[2]);
+        SwerveSubsystem.FLWheel.setdrivespeed(states[1]);
         SwerveSubsystem.FRWheel.setdrivespeed(states[3]);
         SwerveSubsystem.BLWheel.setdrivespeed(states[0]);
-        SwerveSubsystem.BRWheel.setdrivespeed(states[1]);
+        SwerveSubsystem.BRWheel.setdrivespeed(states[2]);
 
        }
 
        else {
-        SwerveSubsystem.FLWheel.setdrivespeed(states[2]);
+        SwerveSubsystem.FLWheel.setdrivespeed(states[1]);
         SwerveSubsystem.FRWheel.setdrivespeed(states[3]);
         SwerveSubsystem.BLWheel.setdrivespeed(states[0]);
-        SwerveSubsystem.BRWheel.setdrivespeed(states[1]);
+        SwerveSubsystem.BRWheel.setdrivespeed(states[2]);
    
        SmartDashboard.putNumber("Gyro Angle", gyroAngle);
 

@@ -9,9 +9,13 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 
 public class Coral {
-    private SparkMax coralturnmotor;
+    public static final SparkMax coralturnmotor = new SparkMax (12,MotorType.kBrushless)
+   
+
     private SparkMax coraldoormotor;
     private XboxController controller;
+    private final CoralSystem System;
+
 
 public Coral ( SparkMax A, SparkMax B, XboxController C){
 
@@ -34,9 +38,9 @@ public Coral ( SparkMax A, SparkMax B, XboxController C){
    public void Coral_door () {
 
       boolean cdoor = controllermap.controllers[controllermap.cdoorButton[0]].getRawButton(controllermap.cdoorButton[1]);
-
-     if (cdoor ?) {
-      if (coraldoormotor.isAtBotton()) {
+    
+     if (cdoor ? ) {
+      if (coraldoormotor.isAtBottom()) {
           coraldoormotor.set(0.5);
       } 
 
