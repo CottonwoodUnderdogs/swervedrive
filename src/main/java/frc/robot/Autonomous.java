@@ -30,11 +30,21 @@ public class Autonomous {
     }
 
  }
-
+ public void testing1() {
+    switch(step) {
+    case 1:
+boolean value1 = autoSystem.moveForTime(10,0.1,0,0);
+    if (value1 == false)  {  
+     
+     step=2;
+     
+ }
+}
+ }
  public void testing () {
    switch(step) {
    case 1:
-    boolean value1 = autoSystem.moveForTime(5,0.1,0,0);
+    boolean value1 = autoSystem.moveForTime(5,0.5,0,0);
     if (value1 == false)  {  
 
      step=2;
@@ -43,22 +53,22 @@ public class Autonomous {
     System.out.println("case 1");
    break;
 
-   case 2:
-    boolean value2 =  autoSystem.moveForTime(15,0,0.1,0);
+//    case 2:
+//     boolean value2 =  autoSystem.moveForTime(15,0,0.1,0);
 
-    if (value2  == false)  {  
-     step=3;
-    }
-     System.out.println("case 2");
-    break;
+//     if (value2  == false)  {  
+//      step=3;
+//     }
+//      System.out.println("case 2");
+//     break;
 
-   case 3:
-    boolean value3 = autoSystem.moveForTime(4, 0.1, 0, 0);
-    if (value3  == false)  {  
-        step=4;
-    }
-    System.out.println("case 3");
-    break;
+//    case 3:
+//     boolean value3 = autoSystem.moveForTime(4, 0.1, 0, 0);
+//     if (value3  == false)  {  
+//         step=4;
+//     }
+//     System.out.println("case 3");
+//     break;
 
 
     default:

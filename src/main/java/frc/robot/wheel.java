@@ -14,6 +14,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
 
+/* states
+ FLWheel 1
+ FRWheel 3
+ BLWheel 0
+ BRWheel 2   */
+
 public class wheel {
       private SparkMax drivemotor;
       private SparkMax turnmotor;

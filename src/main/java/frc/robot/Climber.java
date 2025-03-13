@@ -17,10 +17,10 @@ public class Climber {
 
 }
 
-   public void Climber_cling () {
+ public void Climber_cling () {
     
-    climbersystem.cling_climber(0.5);
-
+  climbersystem.cling_climber(0.2);
+  
 }
 
 }

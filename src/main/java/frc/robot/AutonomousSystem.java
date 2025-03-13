@@ -24,37 +24,39 @@ public class AutonomousSystem {
 
  public AutonomousSystem (){
    
-    }
+ }
 
  public boolean moveForTime(double T, double F, double S, double R) {
-   if (!isMoving) {
-    timer.start();
-    timer.reset();
-    isMoving = true;
-    }
 
-   double time = timer.get();
-   ChassisSpeeds robotVelocity = new ChassisSpeeds(F, S, R);
-   SwerveModuleState[] states = kinematics.toSwerveModuleStates(robotVelocity);
+  if (!isMoving) {
+   timer.start();
+   timer.reset();
+   isMoving = true;
+  }
+
+  double time = timer.get();
+  ChassisSpeeds robotVelocity = new ChassisSpeeds(F, S, R);
+  SwerveModuleState[] states = kinematics.toSwerveModuleStates(robotVelocity);
 
   if (time < T) {
-    SwerveSubsystem.FLWheel.speed(states[1]);
-    SwerveSubsystem.FLWheel.setturnspeed(states[1]);
+   SwerveSubsystem.FLWheel.speed(states[1]);
+   SwerveSubsystem.FLWheel.setturnspeed(states[1]);
     
-    SwerveSubsystem.FRWheel.speed(states[3]);
-    SwerveSubsystem.FRWheel.setturnspeed(states[3]);
+   SwerveSubsystem.FRWheel.speed(states[3]);
+   SwerveSubsystem.FRWheel.setturnspeed(states[3]);
 
-    SwerveSubsystem.BLWheel.setspeed(states[0]);
+   SwerveSubsystem.BLWheel.setspeed(states[0]);
 
-    SwerveSubsystem.BRWheel.speed(states[2]);
-    SwerveSubsystem.BRWheel.setturnspeed(states[2]);
-        
-   } else {
-    isMoving=false;
-    SwerveSubsystem.FLWheel.stop();
-    SwerveSubsystem.FRWheel.stop();
-    SwerveSubsystem.BLWheel.stop();
-    SwerveSubsystem.BRWheel.stop();
+   SwerveSubsystem.BRWheel.speed(states[2]);
+   SwerveSubsystem.BRWheel.setturnspeed(states[2]);   
+   } 
+
+   else {
+   isMoving=false;
+   SwerveSubsystem.FLWheel.stop();
+   SwerveSubsystem.FRWheel.stop();
+   SwerveSubsystem.BLWheel.stop();
+   SwerveSubsystem.BRWheel.stop();
    }
      return isMoving;
     //  PIDController pid = new PIDController(1, 0, 0);
@@ -66,14 +68,13 @@ public class AutonomousSystem {
 
    public boolean rotation (double degree) {
 
-    if (!isMoving) {
-    
-      Robot.gyro.reset();
-      isMoving = true;
-    }
+   if (!isMoving) {
+    Robot.gyro.reset();
+    isMoving = true;
+   }
 
- double gyroAngle = Robot.gyro.getAngle();
- double target = degree;
+   double gyroAngle = Robot.gyro.getAngle();
+   double target = degree;
 
 //   if (gyroAngle < 0) {
    double R = 1*1/5;

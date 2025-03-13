@@ -13,20 +13,18 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class Gyro {
-    private ADXRS450_Gyro gyro;
- 
+ private ADXRS450_Gyro gyro;
 
-public Gyro (  ADXRS450_Gyro A) {
-    gyro = A;
-}
+ public Gyro (  ADXRS450_Gyro A) {
+ gyro = A;
+ }
 
-public void Gyro_resetforward () {
-    boolean gyroReset= controllermap.controllers[controllermap.gyrorestButton[0]].getRawButton(controllermap.gyrorestButton[1]);
-    if (gyroReset == true ) {
-        gyro.reset();
-       }
+ public void Gyro_resetforward () {
+  boolean gyroReset= controllermap.controllers[controllermap.gyrorestButton[0]].getRawButton(controllermap.gyrorestButton[1]);
+   if (gyroReset == true ) {
+    gyro.reset();
+  }
 
-}
-
+ }
 
 }

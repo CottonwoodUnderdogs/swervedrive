@@ -18,21 +18,16 @@ public abstract class controllermap {
    
     // coral
     public static int[] cturnrButton = {0,2}; // controller 0, Button 2
-    public static int[] cturnlButton = {0,0}; // controller 0, Button 0
+    public static int[] cturnlButton = {0,4}; // controller 0, Button 4
     public static int[] cdoorButton = {0,6};  // controller 0, Button 6
     public static int[] gyrorestButton = {0,5}; // controller 0 , Button 5
     
     // climber
     public static int[] upclimberButton = {1,2}; // controller 1, Axis 2 - LT-axis
-    public static int[] downclimberButton = {1,5}; // controller 1, Axis 3 -RT-axis
+    public static int[] downclimberButton = {1,3}; // controller 1, Axis 3 -RT-axis
     public static int[] intakeclimeberButton = { 1,5}; 
     public static int[] letoffclimberButton = {1,6};
     
-    public static int[] intakeToggleButton = {1,4}; // controller 1, Button 4
-    public static int[] letoffToggleButton = {1,2};
-    public static int[] sturnrButton = {1,3};
-    public static int[] sturnlButton = {1,1};
-
    }
 
      

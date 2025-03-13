@@ -81,21 +81,18 @@ public class Robot extends TimedRobot {
     
     private Gyro GyroReset = new Gyro (gyro);
     private DriveSystem Drive = new DriveSystem(gyro);
-   private Climber Climber = new Climber();
+    private Climber Climber = new Climber();
     private Autonomous Auto;
 
-    //private Coral CoralSystem;
-    //AnalogGyro gyro = new AnalogGyro(0);
-
+    private Coral Coral = new Coral();
+    
     //private final SparkBase Spark = new SparkBase();
      //Wheel represents a class that is composed of 2 sparkmax motors representing the turn and drive motor of each wheel as well as PID values and an angle value for each of the wheels
   
     private XboxController controller;
     private XboxController controller2;
     private AutonomousSystem autoSystem;
-    //CoralSystem = new Coral(coralturnmotor, coraldoormotor, controller);
-
-    //Coral = new Coral ( coralturnmotor, coraldoormotor, controller);
+   
 
 
     int ncycles = 0;
@@ -106,26 +103,25 @@ public class Robot extends TimedRobot {
       //gyro.reset();
       gyro.calibrate();
       m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-        m_chooser.addOption("My Auto", kCustomAuto);
-        //SmartDashboard.putData("Auto choices", m_chooser);
-        //controller = new XboxController(0);
+      m_chooser.addOption("My Auto", kCustomAuto);
+      //SmartDashboard.putData("Auto choices", m_chooser);
+      //controller = new XboxController(0);
         //controller2 = new XboxController(1);
-
-        //Need to somehow convert the configturnmotor object to the base sparkmax.config type i think???
       
     }
 
 
  
-  @Override
+@Override
+  public void teleopPeriodic() {
+        
+   Drive.drivemotor();
+   GyroReset.Gyro_resetforward();
+   Climber.Climber_up_down();
+   Climber.Climber_cling();
+   Coral.Coral_door();
+   Coral.Coral_turn();
 
-      public void teleopPeriodic() {
-        //double tempAxis = controller2.getLeftY();
-        //fourbarlinkage.set(tempAxis);
-      
-       Drive.drivemotor();
-       GyroReset.Gyro_resetforward();
-Climber.Climber_up_down();
     }
   
 
@@ -137,8 +133,8 @@ Climber.Climber_up_down();
 
 @Override
   public void autonomousInit() { 
-System.out.println("Autonomous");
-Auto = new Autonomous();
+ System.out.println("Autonomous");
+ Auto = new Autonomous();
        
   }
 
